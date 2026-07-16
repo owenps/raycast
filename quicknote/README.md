@@ -4,20 +4,29 @@
 
 Capture a note from Raycast and append it to a daily Markdown file.
 
-## Setup
+## Installation
 
-1. Run `npm install` in this directory.
-2. Run `npm run dev` and install the extension in Raycast.
-3. Choose **Local** or **SSH** under extension preferences.
-4. Set the matching folder/connection fields. No destination path is assumed.
-
-For permanent use, build and install the extension instead of leaving development mode running:
+Install QuickNote permanently:
 
 ```bash
+npm install
 npm run build
 ```
 
-Open the generated `.raycast` file and choose **Install Extension**. After installation, QuickNote runs without `npm run dev`.
+Open the generated `.raycast` file and choose **Install Extension**. QuickNote then runs without any terminal process.
+
+In Raycast extension preferences, choose **Local** or **SSH**, then set the matching folder/connection fields. No destination path is assumed.
+
+## Development
+
+For local development and live reload:
+
+```bash
+npm install
+npm run dev
+```
+
+Keep `npm run dev` running while developing. Stop it when finished; the permanent installation is independent.
 
 ### Local
 
