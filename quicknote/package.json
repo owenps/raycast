@@ -1,0 +1,49 @@
+{
+  "name": "quicknote",
+  "title": "QuickNote",
+  "description": "Quickly append notes to a daily Markdown file over SSH.",
+  "version": "1.0.0",
+  "author": "owensmith",
+  "license": "MIT",
+  "icon": "icon.png",
+  "commands": [
+    {
+      "name": "quicknote",
+      "title": "QuickNote",
+      "description": "Append a note to today's daily Markdown file over SSH.",
+      "mode": "view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "sshTarget",
+      "type": "textfield",
+      "required": true,
+      "default": "hermes",
+      "title": "SSH Target",
+      "description": "SSH host or configured alias, e.g. hermes or hermes@hermes-pc"
+    },
+    {
+      "name": "remoteFolder",
+      "type": "textfield",
+      "required": true,
+      "default": "C:\\Users\\hermes\\AppData\\Local\\hermes\\profiles\\owen\\notes\\zibaldone",
+      "title": "Remote Notes Folder",
+      "description": "Windows folder path on the SSH host"
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.98.0"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^1.0.9",
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  },
+  "scripts": {
+    "build": "ray build",
+    "dev": "ray develop",
+    "lint": "ray lint",
+    "fix-lint": "ray lint --fix"
+  }
+}
