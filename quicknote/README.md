@@ -1,24 +1,24 @@
 # QuickNote
 
-Raycast command that appends quick notes to a daily Markdown file over SSH.
+Capture a note from Raycast and append it to a daily Markdown file.
 
 ## Setup
 
-1. Confirm SSH key access: `ssh hermes`.
-2. Run `npm install` in this directory.
-3. Run `npm run dev` and install the extension in Raycast.
-4. Set **SSH Target** to your SSH alias (default `hermes`) and verify **Remote Notes Folder**.
+1. Run `npm install` in this directory.
+2. Run `npm run dev` and install the extension in Raycast.
+3. Choose **Local** or **SSH** under extension preferences.
+4. Set the matching folder/connection fields. No destination path is assumed.
 
-The default remote folder is:
+### Local
 
-`C:\Users\hermes\AppData\Local\hermes\profiles\owen\notes\zibaldone`
+Set **Local Notes Folder**, for example `~/Notes`.
+
+### SSH
+
+Set **SSH Target** (for example `user@host` or an SSH config alias) and **Remote Notes Folder**. Verify access first with `ssh <target>`.
+
+QuickNote runs PowerShell remotely over SSH. The SSH target must have OpenSSH and key-based authentication configured.
 
 ## Behavior
 
-QuickNote uses local Mac time and remotely writes:
-
-`<configured folder>/YYYY-MM-DD.md`
-
-It creates the folder/file as needed, then appends `HH:MM: note text`. Existing content is preserved. Whitespace-only input is rejected.
-
-The remote command runs PowerShell through SSH. No SMB mount or backend service is required.
+Uses the Mac's local time and writes `<folder>/YYYY-MM-DD.md`. Creates the folder/file as needed, then appends `HH:MM: note text`. Existing content is preserved. Whitespace-only input is rejected.

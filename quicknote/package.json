@@ -1,7 +1,7 @@
 {
   "name": "quicknote",
   "title": "QuickNote",
-  "description": "Quickly append notes to a daily Markdown file over SSH.",
+  "description": "Quickly append notes to a daily Markdown file locally or over SSH.",
   "version": "1.0.0",
   "author": "owensmith",
   "license": "MIT",
@@ -16,20 +16,32 @@
   ],
   "preferences": [
     {
+      "name": "storageMode",
+      "type": "dropdown",
+      "default": "local",
+      "title": "Storage",
+      "data": [
+        { "title": "Local", "value": "local" },
+        { "title": "SSH", "value": "ssh" }
+      ]
+    },
+    {
+      "name": "localFolder",
+      "type": "textfield",
+      "title": "Local Notes Folder",
+      "description": "Used when Storage is Local, e.g. ~/Notes"
+    },
+    {
       "name": "sshTarget",
       "type": "textfield",
-      "required": true,
-      "default": "hermes",
       "title": "SSH Target",
-      "description": "SSH host or configured alias, e.g. hermes or hermes@hermes-pc"
+      "description": "Used when Storage is SSH, e.g. hermes or hermes@hermes-pc"
     },
     {
       "name": "remoteFolder",
       "type": "textfield",
-      "required": true,
-      "default": "C:\\Users\\hermes\\AppData\\Local\\hermes\\profiles\\owen\\notes\\zibaldone",
       "title": "Remote Notes Folder",
-      "description": "Windows folder path on the SSH host"
+      "description": "Used when Storage is SSH; Windows path on the SSH host"
     }
   ],
   "dependencies": {

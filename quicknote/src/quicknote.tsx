@@ -7,10 +7,14 @@ import {
   Toast,
 } from "@raycast/api";
 import { spawn } from "node:child_process";
+import { appendFile, mkdir } from "node:fs/promises";
+import * as path from "node:path";
 
 interface Preferences {
-  sshTarget: string;
-  remoteFolder: string;
+  storageMode: "local" | "ssh";
+  localFolder?: string;
+  sshTarget?: string;
+  remoteFolder?: string;
 }
 
 interface FormValues {
@@ -24,6 +28,10 @@ function localDateAndTime(date = new Date()): { date: string; time: string } {
     date: `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`,
     time: `${pad(date.getHours())}:${pad(date.getMinutes())}`,
   };
+}
+
+function expandHome(folder: string): string {
+  return folder.replace(/^~(?=$|\/)/, process.env.HOME ?? "~");
 }
 
 function appendRemotely(target: string, folder: string, date: string, entry: string): Promise<void> {
@@ -64,16 +72,26 @@ export default function QuickNote() {
       return;
     }
 
-    const { sshTarget, remoteFolder } = getPreferenceValues<Preferences>();
+    const { storageMode, localFolder, sshTarget, remoteFolder } = getPreferenceValues<Preferences>();
     const { date, time } = localDateAndTime();
     const entry = `${time}: ${note}\n`;
 
     try {
-      await appendRemotely(sshTarget.trim(), remoteFolder.trim(), date, entry);
+      if (storageMode === "ssh") {
+        if (!sshTarget?.trim() || !remoteFolder?.trim()) {
+          throw new Error("Set SSH Target and Remote Notes Folder in preferences");
+        }
+        await appendRemotely(sshTarget.trim(), remoteFolder.trim(), date, entry);
+      } else {
+        if (!localFolder?.trim()) throw new Error("Set Local Notes Folder in preferences");
+        const folder = expandHome(localFolder.trim());
+        await mkdir(folder, { recursive: true });
+        await appendFile(path.join(folder, `${date}.md`), entry, "utf8");
+      }
       await showToast({
         style: Toast.Style.Success,
         title: "Saved",
-        message: `${date}.md on ${sshTarget}`,
+        message: `${date}.md`,
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Could not write the note";
