@@ -1,6 +1,6 @@
 # Raycast Extensions
 
-Custom Raycast extensions by Owen Smith.
+My custom [raycast](https://www.raycast.com) extensions.
 
 ## Extensions
 
