@@ -1,5 +1,7 @@
 # QuickNote
 
+[![Version](https://img.shields.io/badge/version-1.0.0-FF6363)](./package.json)
+
 Capture a note from Raycast and append it to a daily Markdown file.
 
 ## Setup
