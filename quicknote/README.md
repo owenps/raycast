@@ -11,6 +11,14 @@ Capture a note from Raycast and append it to a daily Markdown file.
 3. Choose **Local** or **SSH** under extension preferences.
 4. Set the matching folder/connection fields. No destination path is assumed.
 
+For permanent use, build and install the extension instead of leaving development mode running:
+
+```bash
+npm run build
+```
+
+Open the generated `.raycast` file and choose **Install Extension**. After installation, QuickNote runs without `npm run dev`.
+
 ### Local
 
 Set **Local Notes Folder**, for example `~/Notes`.
