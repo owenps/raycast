@@ -10,8 +10,16 @@
     {
       "name": "quicknote",
       "title": "QuickNote",
-      "description": "Append a note to today's daily Markdown file over SSH.",
-      "mode": "view"
+      "description": "Append a note to today's daily Markdown file locally or over SSH.",
+      "mode": "no-view",
+      "arguments": [
+        {
+          "name": "note",
+          "type": "text",
+          "placeholder": "Note",
+          "required": true
+        }
+      ]
     }
   ],
   "preferences": [

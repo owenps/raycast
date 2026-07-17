@@ -1,13 +1,5 @@
-import {
-  Action,
-  ActionPanel,
-  getPreferenceValues,
-  List,
-  showToast,
-  Toast,
-} from "@raycast/api";
+import { getPreferenceValues, LaunchProps, showToast, Toast } from "@raycast/api";
 import { spawn } from "node:child_process";
-import { useState } from "react";
 import { appendFile, mkdir } from "node:fs/promises";
 import * as path from "node:path";
 
@@ -16,6 +8,10 @@ interface Preferences {
   localFolder?: string;
   sshTarget?: string;
   remoteFolder?: string;
+}
+
+interface Arguments {
+  note: string;
 }
 
 function localDateAndTime(date = new Date()): { date: string; time: string } {
@@ -57,63 +53,36 @@ $file = Join-Path $payload.folder ($payload.date + '.md')
   });
 }
 
-export default function QuickNote() {
-  const [note, setNote] = useState("");
-
-  async function handleSubmit() {
-    const trimmedNote = note.trim();
-    if (!trimmedNote) {
-      await showToast({
-        style: Toast.Style.Failure,
-        title: "Nothing to save",
-        message: "Enter a note first",
-      });
-      return;
-    }
-
-    const { storageMode, localFolder, sshTarget, remoteFolder } = getPreferenceValues<Preferences>();
-    const { date, time } = localDateAndTime();
-    const entry = `${time}: ${trimmedNote}\n`;
-
-    try {
-      if (storageMode === "ssh") {
-        if (!sshTarget?.trim() || !remoteFolder?.trim()) {
-          throw new Error("Set SSH Target and Remote Notes Folder in preferences");
-        }
-        await appendRemotely(sshTarget.trim(), remoteFolder.trim(), date, entry);
-      } else {
-        if (!localFolder?.trim()) throw new Error("Set Local Notes Folder in preferences");
-        const folder = expandHome(localFolder.trim());
-        await mkdir(folder, { recursive: true });
-        await appendFile(path.join(folder, `${date}.md`), entry, "utf8");
-      }
-      await showToast({
-        style: Toast.Style.Success,
-        title: "Saved",
-        message: `${date}.md`,
-      });
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "Could not write the note";
-      await showToast({ style: Toast.Style.Failure, title: "Save failed", message });
-    }
+export default async function QuickNote(props: LaunchProps<{ arguments: Arguments }>) {
+  const note = props.arguments.note.trim();
+  if (!note) {
+    await showToast({
+      style: Toast.Style.Failure,
+      title: "Nothing to save",
+      message: "Enter a note first",
+    });
+    return;
   }
 
-  return (
-    <List
-      filtering={false}
-      searchText={note}
-      onSearchTextChange={setNote}
-      searchBarPlaceholder="Type a note and press Enter…"
-    >
-      <List.Item
-        title={note || "Type a note to save"}
-        subtitle={note ? "Press Enter to save" : undefined}
-        actions={
-          <ActionPanel>
-            <Action title="Save Note" onAction={handleSubmit} />
-          </ActionPanel>
-        }
-      />
-    </List>
-  );
+  const { storageMode, localFolder, sshTarget, remoteFolder } = getPreferenceValues<Preferences>();
+  const { date, time } = localDateAndTime();
+  const entry = `${time}: ${note}\n`;
+
+  try {
+    if (storageMode === "ssh") {
+      if (!sshTarget?.trim() || !remoteFolder?.trim()) {
+        throw new Error("Set SSH Target and Remote Notes Folder in preferences");
+      }
+      await appendRemotely(sshTarget.trim(), remoteFolder.trim(), date, entry);
+    } else {
+      if (!localFolder?.trim()) throw new Error("Set Local Notes Folder in preferences");
+      const folder = expandHome(localFolder.trim());
+      await mkdir(folder, { recursive: true });
+      await appendFile(path.join(folder, `${date}.md`), entry, "utf8");
+    }
+    await showToast({ style: Toast.Style.Success, title: "Saved", message: `${date}.md` });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Could not write the note";
+    await showToast({ style: Toast.Style.Failure, title: "Save failed", message });
+  }
 }

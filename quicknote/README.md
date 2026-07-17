@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/badge/version-1.0.0-FF6363)](./package.json)
 
-Capture a note from Raycast and append it to a daily Markdown file.
+Capture a note directly from Raycast Root Search and append it to a daily Markdown file.
 
 ## Installation
 
@@ -49,4 +49,4 @@ QuickNote runs PowerShell remotely over SSH. The SSH target must have OpenSSH an
 
 ## Behavior
 
-Uses the Mac's local time and writes `<folder>/YYYY-MM-DD.md`. Creates the folder/file as needed, then appends `HH:MM: note text`. Existing content is preserved. Whitespace-only input is rejected.
+Open Raycast, select **QuickNote**, type the note into the Root Search argument field, and press Enter. Uses the Mac's local time and writes `<folder>/YYYY-MM-DD.md`. Creates the folder/file as needed, then appends `HH:MM: note text`. Existing content is preserved. Whitespace-only input is rejected.
