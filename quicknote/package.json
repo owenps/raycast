@@ -6,6 +6,7 @@
   "author": "owensmith321",
   "license": "MIT",
   "icon": "icon.png",
+  "categories": ["Productivity"],
   "commands": [
     {
       "name": "quicknote",
@@ -26,6 +27,7 @@
     {
       "name": "storageMode",
       "type": "dropdown",
+      "required": false,
       "default": "local",
       "title": "Storage",
       "description": "Choose where QuickNote writes notes.",
@@ -37,18 +39,21 @@
     {
       "name": "localFolder",
       "type": "textfield",
+      "required": false,
       "title": "Local Notes Folder",
       "description": "Used when Storage is Local, e.g. ~/Notes"
     },
     {
       "name": "sshTarget",
       "type": "textfield",
+      "required": false,
       "title": "SSH Target",
       "description": "Used when Storage is SSH, e.g. hermes or hermes@hermes-pc"
     },
     {
       "name": "remoteFolder",
       "type": "textfield",
+      "required": false,
       "title": "Remote Notes Folder",
       "description": "Used when Storage is SSH; Windows path on the SSH host"
     }
