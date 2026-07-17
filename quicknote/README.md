@@ -21,7 +21,7 @@ npm run build
 
 Open the generated `.raycast` file and choose **Install Extension**. Quick Note then runs without any terminal process.
 
-In Raycast extension preferences, choose **Local** or **SSH**, then set the matching folder/connection fields. No destination path is assumed.
+In Raycast extension preferences, choose **Local** or **SSH**, then choose **Daily** or **Static** file mode. Set the matching folder/connection fields. Static mode requires a filename such as `inbox.md`; no destination path is assumed.
 
 ## Development
 
@@ -56,4 +56,4 @@ Quick Note runs PowerShell remotely over SSH. The SSH target must have OpenSSH a
 
 ## Behavior
 
-Open Raycast, select **Quick Note**, type the note into the Root Search argument field, and press Enter. Uses the Mac's local time and writes `<folder>/YYYY-MM-DD.md`. Creates the folder/file as needed, then appends `HH:MM: note text`. Existing content is preserved. Whitespace-only input is rejected.
+Open Raycast, select **Quick Note**, type the note into the Root Search argument field, and press Enter. Daily mode writes `<folder>/YYYY-MM-DD.md`; Static mode always writes the configured filename. Creates the folder/file as needed, then appends `HH:MM: note text`. Existing content is preserved. Whitespace-only input is rejected.

@@ -37,6 +37,25 @@
       ]
     },
     {
+      "name": "fileMode",
+      "type": "dropdown",
+      "required": false,
+      "default": "daily",
+      "title": "File Mode",
+      "description": "Use a new file each day or one fixed file.",
+      "data": [
+        { "title": "Daily", "value": "daily" },
+        { "title": "Static", "value": "static" }
+      ]
+    },
+    {
+      "name": "staticFilename",
+      "type": "textfield",
+      "required": false,
+      "title": "Static Filename",
+      "description": "Used in Static mode, e.g. inbox.md"
+    },
+    {
       "name": "localFolder",
       "type": "textfield",
       "required": false,

@@ -10,6 +10,8 @@ import * as path from "node:path";
 
 interface Preferences {
   storageMode: "local" | "ssh";
+  fileMode: "daily" | "static";
+  staticFilename?: string;
   localFolder?: string;
   sshTarget?: string;
   remoteFolder?: string;
@@ -35,17 +37,17 @@ function expandHome(folder: string): string {
 function appendRemotely(
   target: string,
   folder: string,
-  date: string,
+  filename: string,
   entry: string,
 ): Promise<void> {
   const payload = Buffer.from(
-    JSON.stringify({ folder, date, entry }),
+    JSON.stringify({ folder, filename, entry }),
     "utf8",
   ).toString("base64");
   const script = `
 $payload = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('${payload}')) | ConvertFrom-Json
 New-Item -ItemType Directory -Force -Path $payload.folder | Out-Null
-$file = Join-Path $payload.folder ($payload.date + '.md')
+$file = Join-Path $payload.folder $payload.filename
 [IO.File]::AppendAllText($file, $payload.entry, [Text.UTF8Encoding]::new($false))
 `;
 
@@ -91,9 +93,30 @@ export default async function QuickNote(
     return;
   }
 
-  const { storageMode, localFolder, sshTarget, remoteFolder } =
-    getPreferenceValues<Preferences>();
+  const {
+    storageMode,
+    fileMode,
+    staticFilename,
+    localFolder,
+    sshTarget,
+    remoteFolder,
+  } = getPreferenceValues<Preferences>();
   const { date, time } = localDateAndTime();
+  const filename =
+    fileMode === "static" ? staticFilename?.trim() : `${date}.md`;
+  if (
+    !filename ||
+    filename === "." ||
+    filename === ".." ||
+    /[\\\\/]/.test(filename)
+  ) {
+    await showToast({
+      style: Toast.Style.Failure,
+      title: "Invalid filename",
+      message: "Use a filename such as inbox.md",
+    });
+    return;
+  }
   const entry = `${time}: ${note}\n`;
 
   try {
@@ -103,18 +126,23 @@ export default async function QuickNote(
           "Set SSH Target and Remote Notes Folder in preferences",
         );
       }
-      await appendRemotely(sshTarget.trim(), remoteFolder.trim(), date, entry);
+      await appendRemotely(
+        sshTarget.trim(),
+        remoteFolder.trim(),
+        filename,
+        entry,
+      );
     } else {
       if (!localFolder?.trim())
         throw new Error("Set Local Notes Folder in preferences");
       const folder = expandHome(localFolder.trim());
       await mkdir(folder, { recursive: true });
-      await appendFile(path.join(folder, `${date}.md`), entry, "utf8");
+      await appendFile(path.join(folder, filename), entry, "utf8");
     }
     await showToast({
       style: Toast.Style.Success,
       title: "Saved",
-      message: `${date}.md`,
+      message: filename,
     });
   } catch (error) {
     const message =
