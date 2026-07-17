@@ -34,7 +34,7 @@ npm run dev
 
 Keep `npm run dev` running while developing. Stop it when finished; the permanent installation is independent.
 
-> [!ERROR]
+> [!CAUTION]
 > If development install fails with `Unable to install from local sources`, sign in to Raycast both in the app and CLI:
 >
 > ```bash
