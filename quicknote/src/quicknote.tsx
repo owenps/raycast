@@ -1,12 +1,13 @@
 import {
   Action,
   ActionPanel,
-  Form,
   getPreferenceValues,
+  List,
   showToast,
   Toast,
 } from "@raycast/api";
 import { spawn } from "node:child_process";
+import { useState } from "react";
 import { appendFile, mkdir } from "node:fs/promises";
 import * as path from "node:path";
 
@@ -15,10 +16,6 @@ interface Preferences {
   localFolder?: string;
   sshTarget?: string;
   remoteFolder?: string;
-}
-
-interface FormValues {
-  note: string;
 }
 
 function localDateAndTime(date = new Date()): { date: string; time: string } {
@@ -61,9 +58,11 @@ $file = Join-Path $payload.folder ($payload.date + '.md')
 }
 
 export default function QuickNote() {
-  async function handleSubmit(values: FormValues) {
-    const note = values.note.trim();
-    if (!note) {
+  const [note, setNote] = useState("");
+
+  async function handleSubmit() {
+    const trimmedNote = note.trim();
+    if (!trimmedNote) {
       await showToast({
         style: Toast.Style.Failure,
         title: "Nothing to save",
@@ -74,7 +73,7 @@ export default function QuickNote() {
 
     const { storageMode, localFolder, sshTarget, remoteFolder } = getPreferenceValues<Preferences>();
     const { date, time } = localDateAndTime();
-    const entry = `${time}: ${note}\n`;
+    const entry = `${time}: ${trimmedNote}\n`;
 
     try {
       if (storageMode === "ssh") {
@@ -100,14 +99,21 @@ export default function QuickNote() {
   }
 
   return (
-    <Form
-      actions={
-        <ActionPanel>
-          <Action.SubmitForm title="Save Note" onSubmit={handleSubmit} />
-        </ActionPanel>
-      }
+    <List
+      filtering={false}
+      searchText={note}
+      onSearchTextChange={setNote}
+      searchBarPlaceholder="Type a note and press Enter…"
     >
-      <Form.TextArea id="note" title="Note" placeholder="Capture a thought…" autoFocus />
-    </Form>
+      <List.Item
+        title={note || "Type a note to save"}
+        subtitle={note ? "Press Enter to save" : undefined}
+        actions={
+          <ActionPanel>
+            <Action title="Save Note" onAction={handleSubmit} />
+          </ActionPanel>
+        }
+      />
+    </List>
   );
 }
