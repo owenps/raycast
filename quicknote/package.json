@@ -3,7 +3,7 @@
   "title": "QuickNote",
   "description": "Quickly append notes to a daily Markdown file locally or over SSH.",
   "version": "1.0.0",
-  "author": "owensmith",
+  "author": "owensmith321",
   "license": "MIT",
   "icon": "icon.png",
   "commands": [
