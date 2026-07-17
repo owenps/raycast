@@ -1,8 +1,8 @@
-# QuickNote
-
 <p align="center">
   <img src="assets/icon.png" width="128" alt="QuickNote logo">
 </p>
+
+# QuickNote
 
 [![Version](https://img.shields.io/badge/version-1.0.0-FF6363)](./package.json)
 
