@@ -20,6 +20,7 @@
       "type": "dropdown",
       "default": "local",
       "title": "Storage",
+      "description": "Choose where QuickNote writes notes.",
       "data": [
         { "title": "Local", "value": "local" },
         { "title": "SSH", "value": "ssh" }
