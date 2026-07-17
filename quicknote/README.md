@@ -8,7 +8,6 @@
 
 Capture a note directly from Raycast Root Search and append it to a daily Markdown file.
 
-![QuickNote example](https://raw.githubusercontent.com/owenps/raycast/main/quicknote/media/quicknote-example.png?v=2)
 
 ## Installation
 
