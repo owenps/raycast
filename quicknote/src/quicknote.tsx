@@ -102,8 +102,7 @@ export default async function QuickNote(
     remoteFolder,
   } = getPreferenceValues<Preferences>();
   const { date, time } = localDateAndTime();
-  const filename =
-    fileMode === "static" ? staticFilename?.trim() : `${date}.md`;
+  let filename = fileMode === "static" ? staticFilename?.trim() : `${date}.md`;
   if (
     !filename ||
     filename === "." ||
@@ -116,6 +115,9 @@ export default async function QuickNote(
       message: "Use a filename such as inbox.md",
     });
     return;
+  }
+  if (fileMode === "static" && !filename.toLowerCase().endsWith(".md")) {
+    filename += ".md";
   }
   const entry = `${time}: ${note}\n`;
 
