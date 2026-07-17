@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="assets/icon.png" width="128" alt="QuickNote logo">
+  <img src="assets/icon.png" width="128" alt="Quick Note logo">
 </p>
 
-# QuickNote
+# Quick Note
 
 [![Version](https://img.shields.io/badge/version-1.0.0-FF6363)](./package.json)
 
@@ -12,14 +12,14 @@ Capture a note directly from Raycast Root Search and append it to a daily Markdo
 
 ## Installation
 
-Install QuickNote permanently:
+Install Quick Note permanently:
 
 ```bash
 npm install
 npm run build
 ```
 
-Open the generated `.raycast` file and choose **Install Extension**. QuickNote then runs without any terminal process.
+Open the generated `.raycast` file and choose **Install Extension**. Quick Note then runs without any terminal process.
 
 In Raycast extension preferences, choose **Local** or **SSH**, then set the matching folder/connection fields. No destination path is assumed.
 
@@ -52,8 +52,8 @@ Set **Local Notes Folder**, for example `~/Notes`.
 
 Set **SSH Target** (for example `user@host` or an SSH config alias) and **Remote Notes Folder**. Verify access first with `ssh <target>`.
 
-QuickNote runs PowerShell remotely over SSH. The SSH target must have OpenSSH and key-based authentication configured.
+Quick Note runs PowerShell remotely over SSH. The SSH target must have OpenSSH and key-based authentication configured.
 
 ## Behavior
 
-Open Raycast, select **QuickNote**, type the note into the Root Search argument field, and press Enter. Uses the Mac's local time and writes `<folder>/YYYY-MM-DD.md`. Creates the folder/file as needed, then appends `HH:MM: note text`. Existing content is preserved. Whitespace-only input is rejected.
+Open Raycast, select **Quick Note**, type the note into the Root Search argument field, and press Enter. Uses the Mac's local time and writes `<folder>/YYYY-MM-DD.md`. Creates the folder/file as needed, then appends `HH:MM: note text`. Existing content is preserved. Whitespace-only input is rejected.

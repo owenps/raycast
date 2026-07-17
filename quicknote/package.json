@@ -1,6 +1,6 @@
 {
   "name": "quicknote",
-  "title": "QuickNote",
+  "title": "Quick Note",
   "description": "Quickly append notes to a daily Markdown file locally or over SSH.",
   "version": "1.0.0",
   "author": "owensmith321",
@@ -9,7 +9,7 @@
   "commands": [
     {
       "name": "quicknote",
-      "title": "QuickNote",
+      "title": "Quick Note",
       "description": "Append a note to today's daily Markdown file locally or over SSH.",
       "mode": "no-view",
       "arguments": [
